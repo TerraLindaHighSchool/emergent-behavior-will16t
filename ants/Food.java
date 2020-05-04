@@ -8,9 +8,9 @@ import java.util.Random;
  */
 public class Food extends Actor
 {
-    private GreenfootImage image = new GreenfootImage(30, 30);
+    private GreenfootImage image;
     private int crumbs = 100;
-    private final int size = 30;
+    private final int size = 30;   
     /**
      * Act - do whatever the Food wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -18,7 +18,12 @@ public class Food extends Actor
     public void act() 
     {
         // Add your action code here.
-    }    
+    }   
+    public Food()
+    {
+        image = new GreenfootImage(30, 30);
+        updateImage();
+    }
     private void updateImage()
     {
         Random random = new Random();
@@ -45,6 +50,12 @@ public class Food extends Actor
     }
     public void removeCrumb()
         {
-            
+            crumbs--;
+            image.clear();
+            updateImage();
+            if (crumbs == 0)
+            {
+                getWorld().removeObject(this);
+            }
         }
 }
