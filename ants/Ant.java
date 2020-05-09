@@ -17,13 +17,14 @@ public class Ant extends Creature
     public Ant(AntHill home)
     {
         setHomeHill(home);
+        image1 = getImage();
+        image2 = new GreenfootImage("ant-with-food.gif");
     }
     /**
      * Do what an ant's gotta do.
      */
     public void act()
     {
-        randomWalk();
         status();
     }
     private boolean atHome()
@@ -37,14 +38,6 @@ public class Ant extends Creature
         {
             return false;
         }
-    }
-    private void image1()
-    {
-        getImage();
-    }
-    private void image2()
-    {
-        image2 = new GreenfootImage("ant-with-food.gif");
     }
     private void checkForFood()
     {
