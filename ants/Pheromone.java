@@ -34,8 +34,7 @@ public class Pheromone extends Actor
     {
          int size = intensity / 3 + 5;
          image = new GreenfootImage(size+1, size+1);
-         image.setColor(Color.WHITE);
-         int alpha = intensity / 3;
+         image.setColor(new Color(255, 255, 255, intensity / 3));
          image.fillOval( 0,0 , size,size);
          image.setColor(Color.DARK_GRAY);
          image.fillRect( size/2,size/2 , 2,2);
