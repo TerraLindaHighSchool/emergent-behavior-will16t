@@ -14,7 +14,7 @@ public class Ant extends Creature
     private final int MAX_PH_AVAILABLE = 16;
     private final int TIME_FOLLOWING_TRAIL = 30;
     private int PhAvailable = MAX_PH_AVAILABLE;
-    private int followTrialTimeRemaining = 0;
+    private int followTrailTimeRemaining = 0;
     /**
      * Create an ant with a given home hill. The initial speed is zero (not moving).
      */
@@ -55,7 +55,16 @@ public class Ant extends Creature
     }
     private void searchForFood()
     {
-        randomWalk();
+        if(followTrailTimeRemaining == 0)
+        {
+            walkTowardsPheromoneCenter();
+            randomWalk();
+        }
+        else
+        {
+            followTrailTimeRemaining --;
+            walkAwayFromHome();
+        }
         checkForFood();
     }
     private void status()
@@ -63,6 +72,7 @@ public class Ant extends Creature
         if (carryingFood)
         {
             walkTowardsHome();
+            handlePheromoneDrop();
         if (atHome())
         {
             setImage(image1);
@@ -77,14 +87,38 @@ public class Ant extends Creature
     }
     private void handlePheromoneDrop()
     {
-        
+        if(PhAvailable == 16)
+        {
+            getWorld().addObject(new Pheromone(), getX(), getY());
+            PhAvailable = 0;
+        }
+        else
+        {
+            PhAvailable ++;
+        }
     }
-    //private boolean smellsPheromone()
+    private boolean smellsPheromone()
     {
-        
+        Pheromone pheromone = (Pheromone) getOneIntersectingObject(Pheromone.class);
+        if(pheromone != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     private void walkTowardsPheromoneCenter()
     {
-        
+        Pheromone pheromone = (Pheromone) getOneIntersectingObject(Pheromone.class);
+        if(pheromone != null)
+        {
+            headTowards(pheromone);
+        if(pheromone.getX() == getX() && pheromone.getY() == getY())
+        {
+            followTrailTimeRemaining = TIME_FOLLOWING_TRAIL;
+        }
+        }
     }
 }
